@@ -5,5 +5,4 @@
     <string name="allow">点击申请打开自动抢红包程序</string>
     <string name="accessibility_title">微信自动抢红包</string>
     <string name="accessibility_service_description">请打开上面的开关按钮自动抢微信红包--[包尧制作]</string>
-
 </resources>

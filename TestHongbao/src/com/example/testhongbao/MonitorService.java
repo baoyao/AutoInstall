@@ -7,7 +7,9 @@ import java.util.List;
 import android.accessibilityservice.AccessibilityService;
 import android.app.KeyguardManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.PowerManager;
@@ -28,8 +30,21 @@ public class MonitorService extends AccessibilityService {
     private boolean mContainsLucky;
     private boolean mContainsOpenLucky;
 
+    private MyUtils utils;
+    
+    @Override
+    public void onCreate() {
+        // TODO Auto-generated method stub
+        super.onCreate();
+        utils = new MyUtils(this);
+    }
+
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        utils.onAccessibilityEvent(event);
+        if(true){
+            return;
+        }
         final int eventType = event.getEventType();
 
         Log.v("tt", "onAccessibilityEvent eventType: " + eventType);
@@ -43,23 +58,22 @@ public class MonitorService extends AccessibilityService {
              * notifications below API_18 we use AccessibilityService to detect
              */
 
-            // if (Build.VERSION.SDK_INT < 18) {
-            // Notification notification = (Notification)
-            // event.getParcelableData();
-            // List<String> textList = getText(notification);
-            // if (null != textList && textList.size() > 0) {
-            // for (String text : textList) {
-            // if (!TextUtils.isEmpty(text) && text.contains("[微信红包]")) {
-            // final PendingIntent pendingIntent = notification.contentIntent;
-            // try {
-            // pendingIntent.send();
-            // } catch (PendingIntent.CanceledException e) {
-            // }
-            // break;
-            // }
-            // }
-            // }
-            // }
+            if (Build.VERSION.SDK_INT < 18) {
+                Notification notification = (Notification) event.getParcelableData();
+                List<String> textList = getText(notification);
+                if (null != textList && textList.size() > 0) {
+                    for (String text : textList) {
+                        if (!TextUtils.isEmpty(text) && text.contains("[微信红包]")) {
+                            final PendingIntent pendingIntent = notification.contentIntent;
+                            try {
+                                pendingIntent.send();
+                            } catch (PendingIntent.CanceledException e) {
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
