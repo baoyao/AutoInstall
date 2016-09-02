@@ -4,10 +4,13 @@
     <string name="app_name">QHB</string>
     <string name="allow">点击申请打开自动抢红包程序</string>
     <string name="accessibility_title">微信自动抢红包</string>
-    <string name="accessibility_service_description">请打开上面的开关按钮自动抢微信红包--[包尧制作]</string>
+    <string name="accessibility_service_description">\n请打开上面的开关按钮自动抢红包，然后在您的微信中打开通知栏显示消息详情【设置方式：微信界面->我->设置->新消息提醒->通知显示消息详情->打开】。\n\n为了您在黑屏的时候也能抢到红包，请把您的锁屏去掉，当红包来时会自动点亮屏幕并进入微信中抢红包。\n\n\n[包尧制作，注明：本程序不会记录用户的隐私数据，请放心使用，本程序只当休闲娱乐使用，不允许作为其他商业用途。]</string>
     <string name="hong">[微信红包]</string>
     <string name="ling">领取红包</string>
-    <string name="yi_ling">已经领取</string>
-    <string name="cai">拆红包</string>
+    <string name="yi_ling">领取了</string>
+    <string name="cai">開</string>
+    <string name="fa">发了一个红包</string>
+    <string name="cun">已存入零钱</string>
+    <string name="kankan">看看大家的手气</string>
     
 </resources>

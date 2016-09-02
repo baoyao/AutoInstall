@@ -24,6 +24,11 @@ public class MyUtils {
     private String LING = "";
     private String YILING = "";
     private String CAI = "";
+    private String FA = "";
+    private String CUN = "";
+    private String KANKAN="";
+
+    private int stepCount = 0;
 
     private final boolean DEBUG = false;
 
@@ -36,20 +41,25 @@ public class MyUtils {
         LING = mContext.getResources().getString(R.string.ling);
         YILING = mContext.getResources().getString(R.string.yi_ling);
         CAI = mContext.getResources().getString(R.string.cai);
+        FA = mContext.getResources().getString(R.string.fa);
+        CUN = mContext.getResources().getString(R.string.cun);
+        KANKAN = mContext.getResources().getString(R.string.kankan);
+        stepCount = 0;
     }
 
     public void onAccessibilityEvent(AccessibilityEvent event) {
         try {
             final int eventType = event.getEventType();
             if (DEBUG)
-                Log.v("tt", "\n\n**onAccessibilityEvent eventType: " + eventType);
+                Log.v("tt", "\n\n**onAccessibilityEvent eventType: " + eventType+" stepCount: "+stepCount);
 
             if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
                 launcherAppFromNotification(event);
-            } else {
+            } else if(stepCount != 1){
                 lingNodes.clear();
                 LING_INDEX = -1;
                 YILING_INDEX = -1;
+                hasFa = false;
                 AccessibilityNodeInfo parentNode = event.getSource();
                 getAllNode(parentNode, "parent");
                 doNodes();
@@ -60,7 +70,7 @@ public class MyUtils {
                 Log.v("tt", "onAccessibilityEvent Exception: " + e);
         }
     }
-
+    
     private void doClick(AccessibilityNodeInfo node, CharSequence title) {
 
         node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
@@ -77,10 +87,24 @@ public class MyUtils {
             doClick(lingNodes.get(LING_INDEX).parentNode, lingNodes.get(LING_INDEX).childNode.getText());
             lingNodes.clear();
         }
+        
+        for(int i = 0;i<lingNodes.size();i++){
+            Packages p=lingNodes.get(i);
+            if(p.childNode.toString().contains(FA)){
+                int index = i+2;
+                doClick(lingNodes.get(index).childNode,"kai");
+                stepCount = 1;
+            }
+            if(p.childNode.toString().contains(KANKAN)){
+                doClick(lingNodes.get(i).parentNode,"kankan");
+                stepCount = 1;
+            }
+        }
     }
 
     private int LING_INDEX = -1;
     private int YILING_INDEX = -1;
+    private boolean hasFa=false;
 
     private void getAllNode(AccessibilityNodeInfo parentNode, String str) {
         if (parentNode == null) {
@@ -106,7 +130,19 @@ public class MyUtils {
                 lingNodes.add(p);
                 if (text.toString().contains(CAI)) {
                     doClick(childNode, text);
+                    stepCount = 1;
                 }
+                
+                if(text.toString().contains(CUN)){
+                    stepCount = 1;
+                }
+                
+                if(text.toString().contains(FA)){
+                    hasFa=true;
+                }
+            }else if(hasFa){
+                Packages p = new Packages(parentNode, childNode, false, false);
+                lingNodes.add(p);
             }
             if (childNode.getChildCount() > 0) {
                 getAllNode(childNode, "child");
@@ -120,6 +156,7 @@ public class MyUtils {
             if (needLauncherApp(event)) {
                 unlockScreen();
                 notification.contentIntent.send();
+                stepCount = 0;
                 if (DEBUG)
                     Log.v("tt", "launcher app");
             }
