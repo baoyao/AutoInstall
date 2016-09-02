@@ -7,6 +7,7 @@
     <string name="accessibility_service_description">请打开上面的开关按钮自动抢微信红包--[包尧制作]</string>
     <string name="hong">[微信红包]</string>
     <string name="ling">领取红包</string>
-    <string name="yi_ling">opened</string>
-    <string name="cai">Open</string>
+    <string name="yi_ling">已经领取</string>
+    <string name="cai">拆红包</string>
+    
 </resources>

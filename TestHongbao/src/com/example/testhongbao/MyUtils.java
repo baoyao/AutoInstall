@@ -4,8 +4,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.content.Context;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -17,82 +19,98 @@ import android.view.accessibility.AccessibilityNodeInfo;
 public class MyUtils {
 
     private Context mContext;
-    private List<AccessibilityNodeInfo> lingNodes = new ArrayList<AccessibilityNodeInfo>();
-    private final String HONG = "[微信红包]";
-    private final String LING = "领取红包";
-    private final String CAI = "拆红包";
+    private List<Packages> lingNodes = new ArrayList<Packages>();
+    private String HONG = "";
+    private String LING = "";
+    private String YILING = "";
+    private String CAI = "";
+
+    private final boolean DEBUG = true;
 
     public MyUtils(Context context) {
         this.mContext = context;
-        Log.v("tt", "----oncreate----");
+        if (DEBUG)
+            Log.v("tt", "----oncreate----");
+
+        HONG = mContext.getResources().getString(R.string.hong);
+        LING = mContext.getResources().getString(R.string.ling);
+        YILING = mContext.getResources().getString(R.string.yi_ling);
+        CAI = mContext.getResources().getString(R.string.cai);
     }
 
     public void onAccessibilityEvent(AccessibilityEvent event) {
         try {
             final int eventType = event.getEventType();
-            Log.v("tt", "\n\n**onAccessibilityEvent eventType: " + eventType);
-            // Log.v("tt", "event.getParcelableData(): : " +
-            // event.getParcelableData());
-            // Log.v("tt", "event: " + event);
+            if (DEBUG)
+                Log.v("tt", "\n\n**onAccessibilityEvent eventType: " + eventType);
 
             if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
                 launcherAppFromNotification(event);
             } else {
                 lingNodes.clear();
-                AccessibilityNodeInfo rootNode = event.getSource();
-                getAllNode(rootNode, "root");
+                LING_INDEX = -1;
+                YILING_INDEX = -1;
+                AccessibilityNodeInfo parentNode = event.getSource();
+                getAllNode(parentNode, "parent");
                 doNodes();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.v("tt", "onAccessibilityEvent Exception: " + e);
+            if (DEBUG)
+                Log.v("tt", "onAccessibilityEvent Exception: " + e);
         }
     }
 
-    private void doClick(AccessibilityNodeInfo node) {
+    private void doClick(AccessibilityNodeInfo node, CharSequence title) {
 
         node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-        // node.performAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
 
-        Log.v("tt", "doClick node [" + node.getText() + "]");
+        if (DEBUG)
+            Log.v("tt", "doClick node [" + title + "]");
     }
 
     private void doNodes() {
-        Log.v("tt", "-------doNodes lingNodes.size() " + lingNodes.size());
-
-        if (lingNodes.size() > 0) {
-            doClick(lingNodes.get(0));
+        if (DEBUG)
+            Log.v("tt", "-------doNodes lingNodes.size() " + lingNodes.size() + " | " + LING_INDEX + " | "
+                    + YILING_INDEX);
+        if (lingNodes.size() > 0 && YILING_INDEX < LING_INDEX) {
+            doClick(lingNodes.get(LING_INDEX).parentNode, lingNodes.get(LING_INDEX).childNode.getText());
             lingNodes.clear();
         }
     }
 
-    private void getAllNode(AccessibilityNodeInfo rootNode, String str) {
-        if (rootNode == null) {
+    private int LING_INDEX = -1;
+    private int YILING_INDEX = -1;
+
+    private void getAllNode(AccessibilityNodeInfo parentNode, String str) {
+        if (parentNode == null) {
             return;
         }
-        for (int i = 0; i < rootNode.getChildCount(); i++) {
-            AccessibilityNodeInfo childNode = rootNode.getChild(i);
+        for (int i = 0; i < parentNode.getChildCount(); i++) {
+            AccessibilityNodeInfo childNode = parentNode.getChild(i);
             if (childNode == null) {
                 return;
             }
-            Log.v("tt", "--" + str + " rootNode: " + rootNode.getText() + " childNode: " + childNode.getText());
+            if (DEBUG)
+                Log.v("tt", "--" + str + " parentNode: " + parentNode.getText() + " childNode: " + childNode.getText());
             CharSequence text = childNode.getText();
             if (text != null) {
+                Packages p = new Packages(parentNode, childNode, false, false);
                 if (text.toString().contains(LING)) {
-                    lingNodes.clear();
-                    AccessibilityNodeInfo lingNode = rootNode;
-                    if (lingNode != null) {
-                        lingNodes.add(lingNode);
-                    }
+                    p.hasPackage = true;
+                    LING_INDEX = lingNodes.size();
+                } else if (text.toString().contains(YILING)) {
+                    p.isOpened = true;
+                    YILING_INDEX = lingNodes.size();
                 }
-                if (text.toString().contains("Open")) {
-                     doClick(childNode);
+                lingNodes.add(p);
+                if (text.toString().contains(CAI)) {
+                    doClick(childNode, text);
                 }
             }
             if (childNode.getChildCount() > 0) {
                 getAllNode(childNode, "child");
             }
-
         }
     }
 
@@ -100,23 +118,26 @@ public class MyUtils {
         try {
             Notification notification = (Notification) event.getParcelableData();
             if (needLauncherApp(event)) {
+                unlockScreen();
                 notification.contentIntent.send();
-                Log.v("tt", "launcher app");
+                if (DEBUG)
+                    Log.v("tt", "launcher app");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.v("tt", "launcher app Exception " + e);
+            if (DEBUG)
+                Log.v("tt", "launcher app Exception " + e);
         }
     }
 
     private boolean needLauncherApp(AccessibilityEvent event) throws Exception {
-        if (getNorificationContent(event).contains(HONG)) {
+        if (getNotificationContent(event).contains(HONG)) {
             return true;
         }
         return false;
     }
 
-    private String getNorificationContent(AccessibilityEvent event) throws Exception {
+    private String getNotificationContent(AccessibilityEvent event) throws Exception {
         Field f = event.getClass().getSuperclass().getDeclaredField("mText");
         f.setAccessible(true);
         List<CharSequence> texts = (List<CharSequence>) f.get(event);
@@ -126,8 +147,46 @@ public class MyUtils {
                 text += str;
             }
         }
-        Log.v("tt", "getNorificationContent text: " + text);
+        if (DEBUG)
+            Log.v("tt", "getNotificationContent text: " + text);
         return text;
+    }
+
+    private void unlockScreen() {
+        try {
+            KeyguardManager keyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
+            final KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("MyKeyguardLock");
+            keyguardLock.disableKeyguard();
+
+            PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                    | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "MyWakeLock");
+
+            wakeLock.acquire(5 * 1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (DEBUG)
+                Log.v("tt", "unlockScreen Exception " + e);
+        }
+    }
+
+    class Packages {
+        AccessibilityNodeInfo parentNode;
+        AccessibilityNodeInfo childNode;
+        boolean hasPackage;
+        boolean isOpened;
+
+        public Packages() {
+        }
+
+        public Packages(AccessibilityNodeInfo parentNode, AccessibilityNodeInfo childNode, boolean hasPackage,
+                boolean isOpened) {
+            super();
+            this.parentNode = parentNode;
+            this.childNode = childNode;
+            this.hasPackage = hasPackage;
+            this.isOpened = isOpened;
+        }
     }
 
 }
