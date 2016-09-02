@@ -25,7 +25,7 @@ public class MyUtils {
     private String YILING = "";
     private String CAI = "";
 
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
 
     public MyUtils(Context context) {
         this.mContext = context;
