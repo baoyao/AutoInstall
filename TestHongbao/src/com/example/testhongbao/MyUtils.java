@@ -28,7 +28,7 @@ public class MyUtils {
     private String CUN = "";
     private String KANKAN="";
 
-    private int stepCount = 0;
+    private int stepCount = 1;
 
     private final boolean DEBUG = false;
 
@@ -44,7 +44,7 @@ public class MyUtils {
         FA = mContext.getResources().getString(R.string.fa);
         CUN = mContext.getResources().getString(R.string.cun);
         KANKAN = mContext.getResources().getString(R.string.kankan);
-        stepCount = 0;
+        stepCount = 1;
     }
 
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -52,10 +52,10 @@ public class MyUtils {
             final int eventType = event.getEventType();
             if (DEBUG)
                 Log.v("tt", "\n\n**onAccessibilityEvent eventType: " + eventType+" stepCount: "+stepCount);
-
+            
             if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
                 launcherAppFromNotification(event);
-            } else if(stepCount != 1){
+            } else {
                 lingNodes.clear();
                 LING_INDEX = -1;
                 YILING_INDEX = -1;
@@ -83,7 +83,11 @@ public class MyUtils {
         if (DEBUG)
             Log.v("tt", "-------doNodes lingNodes.size() " + lingNodes.size() + " | " + LING_INDEX + " | "
                     + YILING_INDEX);
-        if (lingNodes.size() > 0 && YILING_INDEX < LING_INDEX) {
+        if(lingNodes.size() == 0){
+            return;
+        }
+        
+        if (YILING_INDEX < LING_INDEX && stepCount != 1) {
             doClick(lingNodes.get(LING_INDEX).parentNode, lingNodes.get(LING_INDEX).childNode.getText());
             lingNodes.clear();
         }
