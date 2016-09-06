@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ziti_color">#0000ff</color>
+    <color name="ziti_color">#666666</color>
+    <drawable name="button_selector_normal">#00ff00</drawable>
+    <drawable name="button_selector_pressed">#00ffff</drawable>
     
 </resources>
