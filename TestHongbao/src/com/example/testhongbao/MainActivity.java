@@ -18,6 +18,8 @@ public class MainActivity extends Activity {
         mStepLayout1=(LinearLayout)findViewById(R.id.step_layout1);
         mStepLayout2=(LinearLayout)findViewById(R.id.step_layout2);
         mStepLayout3=(LinearLayout)findViewById(R.id.step_layout3);
+        
+        this.getWindow().getDecorView().findViewById(android.R.id.content);
     }
     
     public void onAllowButtonClick(View view){

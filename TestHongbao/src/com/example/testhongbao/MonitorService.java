@@ -11,6 +11,7 @@ public class MonitorService extends AccessibilityService {
 
     private WeChatUtils mWeChatUtils;
     private QChatUtils mQChatUtils;
+    private MChatUtils mMChatUtils;
     private final String WECHAT_PACKAGE = "com.tencent.mm", QCHAT_PACKAGE = "com.tencent.mobileqq";
 
     @Override
@@ -18,6 +19,7 @@ public class MonitorService extends AccessibilityService {
         super.onCreate();
         mWeChatUtils = new WeChatUtils(this);
         mQChatUtils = new QChatUtils(this);
+        mMChatUtils = new MChatUtils(this);
     }
 
     @Override
@@ -27,6 +29,8 @@ public class MonitorService extends AccessibilityService {
             mWeChatUtils.onAccessibilityEvent(event);
         }else if(QCHAT_PACKAGE.equals(packageName)){
             mQChatUtils.onAccessibilityEvent(event);
+        }else{
+            mMChatUtils.onAccessibilityEvent(event);
         }
     }
 
@@ -40,6 +44,7 @@ public class MonitorService extends AccessibilityService {
         // TODO Auto-generated method stub
         mWeChatUtils.onDestroy();
         mQChatUtils.onDestroy();
+        mMChatUtils.onDestroy();
         super.onDestroy();
     }
 
