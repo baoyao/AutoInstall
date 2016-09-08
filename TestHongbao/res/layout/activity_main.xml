@@ -25,9 +25,10 @@
 
             <Button
                 android:id="@+id/step_btn1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:onClick="onStepButtonClick"
                 android:text="一、向系统申请启动此程序"
                 android:textColor="@color/ziti_color"
@@ -45,10 +46,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     android:background="@drawable/button_selector"
                     android:onClick="onAllowButtonClick"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:text="按钮"
                     android:textColor="#0000ff"
                     android:textSize="18dp" />
@@ -87,11 +88,12 @@
 
             <Button
                 android:id="@+id/step_btn2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:onClick="onStepButtonClick"
-                android:text="二、在微信设置中打开通知栏显示消息详情"
+                android:text="二、打开通知栏显示消息详情"
                 android:textColor="@color/ziti_color"
                 android:textSize="16dp" />
 
@@ -106,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="您的微信中打开通知栏显示消息详情\n【设置方式：微信界面->我->设置->新消息提醒->通知显示消息详情->打开】。如图"
+                    android:text="①微信中设置\n\n您的微信中打开通知栏显示消息详情\n【设置方式：微信界面->我->设置->新消息提醒->通知显示消息详情->打开】。如图"
                     android:textColor="@color/ziti_color" />
 
                 <LinearLayout
@@ -132,13 +134,45 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/weixin_settings3" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="②QQ中设置如下图："
+                    android:textColor="@color/ziti_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/qq_settings1" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/qq_settings2" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/qq_settings3" />
+                </LinearLayout>
             </LinearLayout>
 
             <Button
                 android:id="@+id/step_btn3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:onClick="onStepButtonClick"
                 android:text="三、设置黑屏的时候也能抢到红包"
                 android:textColor="@color/ziti_color"
@@ -155,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="为了您在黑屏的时候也能抢到红包，请把您的锁屏去掉，当红包来时会自动点亮屏幕并进入微信中抢红包，或者手动到设置中赋予此应用解开锁屏的权限，不同手机的设置方式不同。
+                    android:text="为了您在黑屏的时候也能抢到红包，请把您的锁屏去掉，当红包来时会自动点亮屏幕并进入应用中抢红包，或者手动到设置中赋予此应用解开锁屏的权限，不同手机的设置方式不同。
 \n【大概的设置方式：设置->应用->所有应用->找到此应用名->权限->允许解锁屏幕】。"
                     android:textColor="@color/ziti_color" />
 
@@ -254,13 +288,31 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="开启口令抢红包："
+                    android:textColor="@color/ziti_color" />
+
+                <CheckBox
+                    android:id="@+id/command_support"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="如果用户停留在聊天界面，为了避免占用用户的操作，将不会自动打开红包，所以在使用自动抢红包时，请将手机置于桌面、黑屏或其他非微信的聊天界面。\n\n在使用此应用时请不要使用一键清理软件清理内存，以免此应用被清理掉而无法自动抢红包，必须保证此应用在后台运行。\n\n注明：本应用只当休闲娱乐使用，不得作为其他商业用途。"
+                android:text="如果用户停留在聊天界面，为了避免占用用户的操作，将不会自动打开红包，所以在使用自动抢红包时，请将手机置于桌面、黑屏或其他非聊天界面，最好是置于桌面。\n\n在使用此应用时请不要使用一键清理软件清理内存，以免此应用被清理掉而无法自动抢红包，必须保证此应用在后台运行。\n\n注明：本应用只当休闲娱乐使用，不得作为其他商业用途。"
                 android:textColor="#ff0000" />
-            
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

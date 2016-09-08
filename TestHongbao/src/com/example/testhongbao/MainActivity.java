@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 
 public class MainActivity extends Activity {
 
     private LinearLayout mStepLayout1,mStepLayout2,mStepLayout3;
+    private CheckBox mCheckBox;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +22,19 @@ public class MainActivity extends Activity {
         mStepLayout1=(LinearLayout)findViewById(R.id.step_layout1);
         mStepLayout2=(LinearLayout)findViewById(R.id.step_layout2);
         mStepLayout3=(LinearLayout)findViewById(R.id.step_layout3);
+        mCheckBox=(CheckBox) findViewById(R.id.command_support);
         
-        this.getWindow().getDecorView().findViewById(android.R.id.content);
+        mCheckBox.setChecked(PublicUtils.getConfiguration(this));
+        mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO Auto-generated method stub
+                PublicUtils.saveConfiguration(MainActivity.this,isChecked);
+            }
+        });
     }
+
     
     public void onAllowButtonClick(View view){
         Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);

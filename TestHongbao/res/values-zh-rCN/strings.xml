@@ -3,7 +3,7 @@
 
     <string name="app_name">QHB</string>
     <string name="allow">点击申请打开自动抢红包程序</string>
-    <string name="accessibility_title">微信自动抢红包</string>
+    <string name="accessibility_title">自动抢红包</string>
     <string name="accessibility_service_description">\n请打开上面的开关按钮自动抢红包。\n\n\n[包尧制作，注明：本应用只当休闲娱乐使用，不得作为其他商业用途。]</string>
     <string name="accessibility_service_description2">\n请打开上面的开关按钮自动抢红包，然后在您的微信中打开通知栏显示消息详情【设置方式：微信界面->我->设置->新消息提醒->通知显示消息详情->打开】。\n\n为了您在黑屏的时候也能抢到红包，请把您的锁屏去掉，当红包来时会自动点亮屏幕并进入微信中抢红包，或者手动到设置中赋予此应用解开锁屏的权限，不同手机的设置方式不同。【大概的设置方式：设置->应用->所有应用->找到此应用名->权限->允许解锁屏幕】。\n\n如果以上操作已设置好还是无法使用请更新微信到最新版本。\n\n\n[包尧制作，注明：本程序不会记录用户的隐私数据，请放心使用，本程序只当休闲娱乐使用，不得作为其他商业用途。]</string>
     <string name="main_interface_description">首先点击上面的这个按钮向系统申请启动此程序。\n\n然后在您的微信中打开通知栏显示消息详情【设置方式：微信界面->我->设置->新消息提醒->通知显示消息详情->打开】。\n\n为了您在黑屏的时候也能抢到红包，请把您的锁屏去掉，当红包来时会自动点亮屏幕并进入微信中抢红包，或者手动到设置中赋予此应用解开锁屏的权限，不同手机的设置方式不同。【大概的设置方式：设置->应用->所有应用->找到此应用名->权限->允许解锁屏幕】。\n\n如果以上操作已设置好还是无法使用请更新微信到最新版本。\n\n\n[包尧制作，注明：本程序不会记录用户的隐私数据，请放心使用，本程序只当休闲娱乐使用，不得作为其他商业用途。]</string>
@@ -15,5 +15,15 @@
     <string name="title_wechat_already_opened">已存入零钱</string>
     <string name="title_wechat_miss">看看大家的手气</string>
     
-    <string name="title_qchat_find_red_package">[QQ红包]恭喜发财</string>
+    <string name="title_qchat_find_red_package">[QQ红包]</string>
+    <string name="title_qchat_can_open">点击拆开</string>
+    <string name="title_qchat_opened">已拆开</string>
+    <string name="title_qchat_opening">******</string>
+    <string name="title_qchat_sended">******</string>
+    <string name="title_qchat_already_opened">已存入余额</string>
+    <string name="title_qchat_miss">******</string>
+    
+    <string name="title_command_red_package">口令红包</string>
+    <string name="title_click_input_command">点击输入口令</string>
+    <string name="title_send_button">发送</string>
 </resources>

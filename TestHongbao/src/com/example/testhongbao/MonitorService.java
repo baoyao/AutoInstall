@@ -45,6 +45,7 @@ public class MonitorService extends AccessibilityService {
         mWeChatUtils.onDestroy();
         mQChatUtils.onDestroy();
         mMChatUtils.onDestroy();
+        PublicUtils.reenableKeyguard();
         super.onDestroy();
     }
 

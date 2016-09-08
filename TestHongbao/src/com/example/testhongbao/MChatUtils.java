@@ -13,6 +13,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
  */
 public class MChatUtils {
 
+    private final static boolean DEBUG = false;
+    
     private Context mContext;
 
     public MChatUtils(Context context) {
@@ -24,12 +26,12 @@ public class MChatUtils {
         try {
             final int eventType = event.getEventType();
             if (eventType != AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
-                Log.v("tt","\n\n\n");
+//                Log.v("tt","\n\n\n");
                 getAllNode(event.getSource(), "root",0);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.v("tt", "onAccessibilityEvent Exception " + e);
+            if(DEBUG)Log.v("tt", "onAccessibilityEvent Exception " + e);
         }
     }
 
@@ -44,7 +46,7 @@ public class MChatUtils {
             if (childNode == null) {
                 return;
             }
-            Log.v("tt", "-"+count+"-" + str + " parentNode: " + parentNode.getText() + " childNode: " + childNode.getText());
+//            Log.v("tt", "-"+count+"-" + str + " parentNode: " + parentNode.getText() + " childNode: " + childNode.getText());
 
             CharSequence text = childNode.getText();
             if (text != null) {
@@ -57,7 +59,7 @@ public class MChatUtils {
     }
 
     public void onDestroy() {
-        Log.v("tt", "----mchat onDestroy----");
+//        Log.v("tt", "----mchat onDestroy----");
     }
 
 }

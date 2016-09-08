@@ -171,7 +171,6 @@ public class WeChatUtils {
     public void onDestroy() {
         if (DEBUG)
             Log.v("tt", "----WeChat onDestroy----");
-        PublicUtils.reenableKeyguard();
     }
 
 }
