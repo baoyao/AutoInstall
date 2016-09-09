@@ -18,12 +18,9 @@
     <string name="title_qchat_find_red_package">[QQ红包]</string>
     <string name="title_qchat_can_open">点击拆开</string>
     <string name="title_qchat_opened">已拆开</string>
-    <string name="title_qchat_opening">******</string>
-    <string name="title_qchat_sended">******</string>
     <string name="title_qchat_already_opened">已存入余额</string>
-    <string name="title_qchat_miss">******</string>
-    
-    <string name="title_command_red_package">口令红包</string>
-    <string name="title_click_input_command">点击输入口令</string>
-    <string name="title_send_button">发送</string>
+    <string name="title_qchat_command_red_package">口令红包</string>
+    <string name="title_qchat_click_input_command">点击输入口令</string>
+    <string name="title_qchat_send_button">发送</string>
+    <string name="title_qchat_opened_all">被领完</string>
 </resources>

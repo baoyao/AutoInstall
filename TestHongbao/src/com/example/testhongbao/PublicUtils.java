@@ -30,7 +30,7 @@ public class PublicUtils {
                             | PowerManager.ACQUIRE_CAUSES_WAKEUP
                             | PowerManager.ON_AFTER_RELEASE, "MyWakeLock");
             wakeLock.acquire(5 * 1000);
-
+            
             KeyguardManager keyguardManager = (KeyguardManager) context
                     .getSystemService(Context.KEYGUARD_SERVICE);
             mKeyguardLock = keyguardManager.newKeyguardLock("MyKeyguardLock");
