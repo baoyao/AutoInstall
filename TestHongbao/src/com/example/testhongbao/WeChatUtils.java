@@ -44,7 +44,7 @@ public class WeChatUtils {
                 Log.v("tt", "\n\n**wechat onAccessibilityEvent eventType: " + eventType + " mCanOpen: " + mCanOpen);
 
             if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
-                launcherAppFromNotification(event);
+                launchAppFromNotification(event);
             } else {
                 mNodes.clear();
                 CAN_OPEN_INDEX = -1;
@@ -144,24 +144,24 @@ public class WeChatUtils {
         }
     }
 
-    private void launcherAppFromNotification(AccessibilityEvent event) {
+    private void launchAppFromNotification(AccessibilityEvent event) {
         try {
             Notification notification = (Notification) event.getParcelableData();
-            if (needLauncherApp(event)) {
+            if (needLaunchApp(event)) {
                 PublicUtils.unlockScreen(mContext);
                 notification.contentIntent.send();
                 mCanOpen = true;
                 if (DEBUG)
-                    Log.v("tt", "launcher app");
+                    Log.v("tt", "launch app");
             }
         } catch (Exception e) {
             e.printStackTrace();
             if (DEBUG)
-                Log.v("tt", "launcher app Exception " + e);
+                Log.v("tt", "launch app Exception " + e);
         }
     }
 
-    private boolean needLauncherApp(AccessibilityEvent event) throws Exception {
+    private boolean needLaunchApp(AccessibilityEvent event) throws Exception {
         if (PublicUtils.getNotificationContent(event).contains(TITLE_FIND_RED_PACKAGE)) {
             return true;
         }
